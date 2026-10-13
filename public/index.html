@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moshi Tragedy Investigation | 45-Chapter Dossier</title>
+    <meta name="description" content="Investigative journalism exposing the Moshi Garbage Depot collapse - administrative fraud, phantom energy claims, and systemic failures">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Merriweather:wght@400;700;900&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            950: '#0B0F17',
+                        },
+                        crimson: {
+                            500: '#EF4444',
+                            600: '#DC2626',
+                        },
+                        amber: {
+                            500: '#F59E0B',
+                        }
+                    },
+                    fontFamily: {
+                        'serif': ['Merriweather', 'Georgia', 'serif'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'devanagari': ['Noto Serif Devanagari', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print { 
+            body { display: none !important; } 
+        }
+        
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #F59E0B 0%, #EF4444 100%);
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+        
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: #F59E0B;
+            color: #0B0F17;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.5);
+            z-index: 1000;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        #back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #back-to-top:hover {
+            background: #DC7610;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.7);
+        }
+        
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .reveal:nth-child(3) { transition-delay: 0.3s; }
+        .reveal:nth-child(4) { transition-delay: 0.4s; }
+        
+        /* 3D Tilt Effect */
+        .stat-badge {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .stat-badge:hover {
+            transform: scale(1.05);
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.8); }
+        }
+        
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .animate-slide-up {
+            animation: slide-up 0.6s ease-out forwards;
+        }
+        
+        .animate-fade-in {
+            animation: fade-in 0.8s ease-out forwards;
+        }
+        
+        .bento-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.15);
+        }
+        
+        .chapter-item {
+            transition: all 0.3s ease;
+        }
+        
+        .chapter-item:hover {
+            background: rgba(245, 158, 11, 0.05);
+            border-left-color: #F59E0B;
+        }
+        
+        .locked-overlay {
+            backdrop-filter: blur(8px);
+        }
+        
+        #reader-page {
+            display: none;
+        }
+        
+        .canvas-container {
+            position: relative;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 3rem;
+            opacity: 0.03;
+            pointer-events: none;
+            white-space: nowrap;
+            color: #F59E0B;
+            font-weight: 900;
+            letter-spacing: 0.5em;
+            user-select: none;
+        }
+        
+        /* Enhanced watermark with payment ID */
+        .watermark-dynamic {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 1.2rem;
+            opacity: 0.05;
+            pointer-events: none;
+            color: #F59E0B;
+            font-weight: 700;
+            user-select: none;
+            white-space: nowrap;
+        }
+        
+        /* Blur overlay for dev tools detection */
+        .dev-tools-warning {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        /* Custom scrollbar for thumbnails */
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 3px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #4a4a4a;
+            border-radius: 3px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: #6a6a6a;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-gray-100 font-sans antialiased">
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <!-- Landing Page -->
+    <div id="landing-page">
+        
+        <!-- Homage Banner -->
+        <div class="bg-gradient-to-r from-gray-900 to-slate-950 border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                <div class="flex items-center justify-center space-x-3 text-sm text-gray-400">
+                    <span class="text-lg">🕯️</span>
+                    <p class="font-medium">In memory of the 9 lives lost • This investigation demands accountability</p>
+                    <span class="text-lg">🕯️</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-xl border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-8 bg-amber-500"></div>
+                        <div>
+                            <h2 class="text-sm font-bold text-amber-500 uppercase tracking-wide">Satyashodhak Investigation</h2>
+                            <p class="text-xs text-gray-500">45-Part Dossier Series</p>
+                        </div>
+                    </div>
+                    <button id="nav-cta-btn" class="hidden sm:block bg-amber-500 hover:bg-amber-600 text-slate-950 px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 animate-pulse-glow">
+                        Access Full Report: ₹50
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden border-b border-gray-800">
+            <div class="absolute inset-0 bg-gradient-to-b from-crimson-600/10 to-transparent pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative">
+                <div class="text-center animate-fade-in">
+                    <div class="inline-flex items-center space-x-2 bg-crimson-500/10 border border-crimson-500/30 rounded-full px-4 py-2 mb-6">
+                        <span class="w-2 h-2 bg-crimson-500 rounded-full animate-pulse"></span>
+                        <span class="text-xs font-semibold text-crimson-400 uppercase tracking-wider">Breaking Investigation</span>
+                    </div>
+                    
+                    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-black mb-4 leading-tight">
+                        <span class="text-white">Moshi Garbage Depot Tragedy</span>
+                    </h1>
+                    
+                    <p class="font-devanagari text-2xl sm:text-3xl text-amber-500 font-bold mb-6">
+                        मोशी कचरा डेपो दुर्घटना
+                    </p>
+                    
+                    <div class="max-w-3xl mx-auto mb-8">
+                        <p class="text-xl text-gray-300 font-medium mb-2">8 July 2026</p>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-crimson-400">
+                            The Biggest Administrative Crime in PCMC History
+                        </h2>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4 mb-8">
+                        <p class="text-gray-400">Investigative Report by <span class="text-white font-semibold">Dr. Vijaykumar Vasantrao Patil</span></p>
+                        <span class="hidden sm:block text-gray-600">•</span>
+                        <p class="text-gray-400">Published by <span class="text-white font-semibold">Ruvi Prakashan</span></p>
+                    </div>
+                    
+                    <!-- Key Stats Grid with Count-up Animation -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-12 reveal">
+                        <div class="stat-badge bg-gradient-to-br from-gray-900 to-slate-950 border border-crimson-500/30 rounded-xl p-6 text-center">
+                            <div class="text-4xl font-black text-crimson-400 mb-2">
+                                <span class="counter" data-target="70">0</span>m
+                            </div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Illegal Mound Height</div>
+                            <div class="text-xs text-gray-500 mt-1">(23-story equivalent)</div>
+                        </div>
+                        
+                        <div class="stat-badge bg-gradient-to-br from-gray-900 to-slate-950 border border-amber-500/30 rounded-xl p-6 text-center">
+                            <div class="text-4xl font-black text-amber-400 mb-2">
+                                ₹<span class="counter" data-target="76.57">0</span>Cr
+                            </div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Paper Power Scam</div>
+                            <div class="text-xs text-gray-500 mt-1">Phantom savings claim</div>
+                        </div>
+                        
+                        <div class="stat-badge bg-gradient-to-br from-gray-900 to-slate-950 border border-crimson-500/30 rounded-xl p-6 text-center">
+                            <div class="text-4xl font-black text-crimson-400 mb-2">
+                                <span class="counter" data-target="9">0</span>
+                            </div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Lives Lost</div>
+                            <div class="text-xs text-gray-500 mt-1">84-hour rescue op</div>
+                        </div>
+                        
+                        <div class="stat-badge bg-gradient-to-br from-gray-900 to-slate-950 border border-amber-500/30 rounded-xl p-6 text-center">
+                            <div class="text-4xl font-black text-amber-400 mb-2">
+                                <span class="counter" data-target="927">0</span>
+                            </div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Bogus OC Societies</div>
+                            <div class="text-xs text-gray-500 mt-1">Paper-only STP units</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Primary CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button id="main-cta-btn" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-950 px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl">
+                            🔓 Unlock Full 45-Chapter Dossier (₹50)
+                        </button>
+                        <button onclick="document.getElementById('chapters').scrollIntoView({behavior:'smooth'})" class="w-full sm:w-auto border-2 border-gray-700 hover:border-amber-500 text-gray-300 hover:text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300">
+                            Preview Evidence Index
+                        </button>
+                    </div>
+                    
+                    <!-- Access Status Message (Hidden by default, shown when user has access) -->
+                    <div id="access-status" class="hidden mt-6">
+                        <div class="inline-flex items-center space-x-2 bg-green-500/10 border border-green-500/30 rounded-full px-6 py-3">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-green-400 font-semibold">✓ You have lifetime access to this report</span>
+                        </div>
+                    </div>
+                    
+                    <div id="error-message" class="mt-6"></div>
+                    
+                    <p class="text-sm text-gray-500 mt-6">🔒 Secure Razorpay payment • ⚡ Instant lifetime access • 📱 Mobile & Desktop compatible</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Bento Grid - Core Investigations -->
+        <section class="py-20 border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h3 class="font-serif text-3xl sm:text-4xl font-black text-white mb-4">Core Investigative Angles</h3>
+                    <p class="text-lg text-gray-400">Four pillars of systemic failure exposed through forensic documentation</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bento-card bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-2xl p-8 reveal">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-crimson-500/10 border border-crimson-500/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">⚡</div>
+                            <div>
+                                <h4 class="font-serif text-2xl font-bold text-white mb-2">The Phantom Energy Scam</h4>
+                                <div class="text-amber-400 font-black text-3xl mb-2">₹76.57 Crore Paper Claim</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed mb-4">
+                            MSEDCL (Maharashtra State Electricity Distribution Co.) grid meters recorded <span class="text-white font-semibold">32 months of near-zero power injection</span> into the grid, directly contradicting PCMC's claimed 14 MW electricity generation from the waste-to-energy plant.
+                        </p>
+                        <div class="bg-crimson-500/5 border border-crimson-500/20 rounded-lg p-4">
+                            <div class="text-xs text-crimson-400 font-semibold mb-1">LEGAL ACTION</div>
+                            <div class="text-sm text-gray-300">MERC Case No. 139/2024 • Unsegregated soil prevented incinerator temperatures</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="bento-card bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-2xl p-8 reveal">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">⚖️</div>
+                            <div>
+                                <h4 class="font-serif text-2xl font-bold text-white mb-2">Weighbridge & Tare Weight Racket</h4>
+                                <div class="text-amber-400 font-black text-3xl mb-2">₹60+ Crore Tipping Fee Fraud</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed mb-4">
+                            RTO forensic technical reports exposed <span class="text-white font-semibold">modified vehicle chassis and tampered tare weights</span> on waste collection vehicles. Contractors artificially inflated tonnage by mixing construction debris, rocks, and silt into municipal waste streams.
+                        </p>
+                        <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4">
+                            <div class="text-xs text-amber-400 font-semibold mb-1">RTO FINDINGS</div>
+                            <div class="text-sm text-gray-300">Systematic chassis modifications • False weight certificates</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="bento-card bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-2xl p-8 reveal">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-crimson-500/10 border border-crimson-500/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">✈️</div>
+                            <div>
+                                <h4 class="font-serif text-2xl font-bold text-white mb-2">Aviation & National Security Alert</h4>
+                                <div class="text-amber-400 font-black text-3xl mb-2">24-Year Bird Strike Hazard</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed mb-4">
+                            Located directly along <span class="text-white font-semibold">Lohegaon Air Force Base flight path</span>, causing continuous bird-strike hazards for Sukhoi Su-30MKI fighter jets and commercial flights. Project chimney constructed without mandatory defense clearance NOC.
+                        </p>
+                        <div class="bg-crimson-500/5 border border-crimson-500/20 rounded-lg p-4">
+                            <div class="text-xs text-crimson-400 font-semibold mb-1">DEFENSE CONCERN</div>
+                            <div class="text-sm text-gray-300">Unpermitted chimney height • Continuous avian congregation</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 4 -->
+                    <div class="bento-card bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-2xl p-8 reveal">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🏗️</div>
+                            <div>
+                                <h4 class="font-serif text-2xl font-bold text-white mb-2">Structural & Environmental Violations</h4>
+                                <div class="text-amber-400 font-black text-3xl mb-2">Zero Safety Audits (2 Decades)</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed mb-4">
+                            Illegal 3-story administrative building constructed <span class="text-white font-semibold">12-35 meters from unstable mound</span> without structural engineering oversight. Buffer zone illegally reduced from 500m to 100m. Slope failure triggered by leachate saturation.
+                        </p>
+                        <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4">
+                            <div class="text-xs text-amber-400 font-semibold mb-1">NEERI VIOLATIONS</div>
+                            <div class="text-sm text-gray-300">Unscientific mound construction • MPCB complicity documented</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Chapter Explorer -->
+        <section id="chapters" class="py-20 border-b border-gray-800">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="font-serif text-3xl sm:text-4xl font-black text-white mb-4">45-Chapter Investigation Archive</h3>
+                    <p class="text-lg text-gray-400">Systematic documentation organized into four forensic dossiers</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Dossier I -->
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-xl overflow-hidden">
+                        <button onclick="toggleDossier('dossier1')" class="w-full flex items-center justify-between p-6 hover:bg-gray-900/50 transition-colors">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-crimson-500/10 border border-crimson-500/30 rounded-lg flex items-center justify-center font-bold text-crimson-400">I</div>
+                                <div class="text-left">
+                                    <h4 class="font-serif text-xl font-bold text-white">Administrative Negligence & Buffer Zone Reductions</h4>
+                                    <p class="text-sm text-gray-500">Chapters 1-10 • Constitutional failures & systematic violations</p>
+                                </div>
+                            </div>
+                            <svg id="dossier1-icon" class="w-6 h-6 text-amber-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="dossier1" class="hidden border-t border-gray-800">
+                            <div class="p-6 space-y-2">
+                                <div class="chapter-item flex items-center justify-between p-3 border-l-2 border-gray-700 hover:border-amber-500">
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-gray-300">Chapter 1: Constitutional Duties of Elected Representatives</p>
+                                    </div>
+                                    <span class="text-xs text-gray-600 flex items-center space-x-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                    </span>
+                                </div>
+                                <div class="chapter-item flex items-center justify-between p-3 border-l-2 border-gray-700 hover:border-amber-500">
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-gray-300">Chapter 2: Corporate Criminal Liability Framework</p>
+                                    </div>
+                                    <span class="text-xs text-gray-600 flex items-center space-x-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                    </span>
+                                </div>
+                                <div class="chapter-item flex items-center justify-between p-3 border-l-2 border-gray-700 hover:border-amber-500">
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-gray-300">Chapter 3: The 12-Meter Illegal Construction Documentation</p>
+                                    </div>
+                                    <span class="text-xs text-gray-600 flex items-center space-x-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                    </span>
+                                </div>
+                                <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4 mt-4">
+                                    <p class="text-sm text-gray-400">+ 7 more chapters covering buffer zone violations, NEERI guideline breaches, and bulk waste generator rules</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dossier II -->
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-xl overflow-hidden">
+                        <button onclick="toggleDossier('dossier2')" class="w-full flex items-center justify-between p-6 hover:bg-gray-900/50 transition-colors">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center font-bold text-amber-400">II</div>
+                                <div class="text-left">
+                                    <h4 class="font-serif text-xl font-bold text-white">Weighbridge & Contractor Rigging Evidence</h4>
+                                    <p class="text-sm text-gray-500">Chapters 11-20 • RTO forensics & tipping fee fraud mechanisms</p>
+                                </div>
+                            </div>
+                            <svg id="dossier2-icon" class="w-6 h-6 text-amber-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="dossier2" class="hidden border-t border-gray-800">
+                            <div class="p-6">
+                                <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4">
+                                    <p class="text-sm text-gray-400">10 chapters documenting RTO technical verification reports, vehicle chassis modifications, tonnage manipulation techniques, and aviation hazard documentation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dossier III -->
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-xl overflow-hidden">
+                        <button onclick="toggleDossier('dossier3')" class="w-full flex items-center justify-between p-6 hover:bg-gray-900/50 transition-colors">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-crimson-500/10 border border-crimson-500/30 rounded-lg flex items-center justify-center font-bold text-crimson-400">III</div>
+                                <div class="text-left">
+                                    <h4 class="font-serif text-xl font-bold text-white">The Waste-to-Energy Mirage</h4>
+                                    <p class="text-sm text-gray-500">Chapters 21-30 • Phantom power generation & MSEDCL grid records</p>
+                                </div>
+                            </div>
+                            <svg id="dossier3-icon" class="w-6 h-6 text-amber-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="dossier3" class="hidden border-t border-gray-800">
+                            <div class="p-6">
+                                <div class="bg-crimson-500/5 border border-crimson-500/20 rounded-lg p-4">
+                                    <p class="text-sm text-gray-400">10 chapters analyzing BVG India contracting history, MERC Case 139/2024 documentation, unexecuted wheeling agreements, and ₹76.57 crore paper scam breakdown</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dossier IV -->
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-gray-800 rounded-xl overflow-hidden">
+                        <button onclick="toggleDossier('dossier4')" class="w-full flex items-center justify-between p-6 hover:bg-gray-900/50 transition-colors">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center font-bold text-amber-400">IV</div>
+                                <div class="text-left">
+                                    <h4 class="font-serif text-xl font-bold text-white">Official Inquiries & Forensic Audit Findings</h4>
+                                    <p class="text-sm text-gray-500">Chapters 31-45 • SIT probe, IIT Bombay report & systemic reform mandates</p>
+                                </div>
+                            </div>
+                            <svg id="dossier4-icon" class="w-6 h-6 text-amber-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="dossier4" class="hidden border-t border-gray-800">
+                            <div class="p-6">
+                                <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4">
+                                    <p class="text-sm text-gray-400">15 chapters covering Dr. Mashelkar/Kelkar PIC findings, Divisional Commissioner Sheetal Teli-Ugale technical report, chimney NOC violations, MPCB complicity, and mandatory MRF implementation under SWM Rules 2016</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center">
+                    <button id="chapters-cta-btn" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105">
+                        Unlock All 45 Chapters Now (₹50)
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Legal Accountability -->
+        <section class="py-20 border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="font-serif text-3xl sm:text-4xl font-black text-white mb-4">Active Legal Proceedings</h3>
+                    <p class="text-lg text-gray-400">Ongoing investigations and administrative actions</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-crimson-500/30 rounded-xl p-6">
+                        <div class="w-12 h-12 bg-crimson-500/10 border border-crimson-500/30 rounded-lg flex items-center justify-center text-2xl mb-4">🚔</div>
+                        <h4 class="font-bold text-white mb-2">FIR & Arrests</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed">Section 105 BNS registered at Bhosari MIDC Police Station against Antony Lara officials</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-amber-500/30 rounded-xl p-6">
+                        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center text-2xl mb-4">👮</div>
+                        <h4 class="font-bold text-white mb-2">Administrative Suspensions</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed">PCMC Chief Environment Engineer Sanjay Kulkarni & Executive Engineer Yogesh Awhad suspended</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-crimson-500/30 rounded-xl p-6">
+                        <div class="w-12 h-12 bg-crimson-500/10 border border-crimson-500/30 rounded-lg flex items-center justify-center text-2xl mb-4">🔬</div>
+                        <h4 class="font-bold text-white mb-2">Technical Inquiry</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed">Divisional Commissioner Sheetal Teli-Ugale leads probe with IIT Bombay structural experts</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-gray-900 to-slate-950 border border-amber-500/30 rounded-xl p-6">
+                        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center text-2xl mb-4">🕵️</div>
+                        <h4 class="font-bold text-white mb-2">SIT Investigation</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed">Special Investigation Team led by DCP Maruti Jagtap conducting forensic analysis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Final CTA -->
+        <section class="py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h3 class="font-serif text-3xl sm:text-4xl font-black text-white mb-6">Access the Complete Investigation</h3>
+                <p class="text-xl text-gray-400 mb-8">45 chapters of forensic documentation • ₹50 one-time payment</p>
+                <button id="footer-cta-btn" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-12 py-5 rounded-full font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl mb-6">
+                    🔓 Unlock Full Report Now
+                </button>
+                <div class="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-500">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Secure Razorpay payment</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Lifetime instant access</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Protected canvas reader</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="border-t border-gray-800 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center text-sm text-gray-500">
+                    <p class="mb-2">Published by Ruvi Prakashan, Bijlinagar, Chinchwad, Pune - 411033</p>
+                    <p>© 2026 Dr. Vijaykumar Vasantrao Patil • All Rights Reserved</p>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Back to Top Button -->
+        <div id="back-to-top" title="Back to top">↑</div>
+        
+    </div>
+    
+    <!-- Reader Page -->
+    <div id="reader-page" class="min-h-screen bg-slate-950">
+        <!-- Reader Header -->
+        <div class="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-xl border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex flex-col space-y-4">
+                    <!-- Top Row -->
+                    <div class="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-8 bg-amber-500"></div>
+                            <div>
+                                <h2 class="text-sm font-bold text-white">Moshi Garbage Depot Tragedy</h2>
+                                <p class="text-xs text-gray-500">45-Chapter Investigation Dossier</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <button id="logout-btn" class="px-4 py-2 bg-crimson-500 hover:bg-crimson-600 text-white rounded-lg font-medium transition-colors text-sm">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Control Bar -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 pb-2">
+                        <!-- Left Controls -->
+                        <div class="flex items-center space-x-2">
+                            <button id="prev-btn" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm">
+                                ← Prev
+                            </button>
+                            
+                            <button id="next-btn" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm">
+                                Next →
+                            </button>
+                            
+                            <div class="flex items-center space-x-2 px-3 py-2 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                                <input 
+                                    type="number" 
+                                    id="page-input" 
+                                    min="1" 
+                                    value="1"
+                                    class="w-12 bg-transparent text-amber-400 font-bold text-sm text-center outline-none"
+                                />
+                                <span class="text-gray-500 text-sm">/</span>
+                                <span id="total-pages" class="text-amber-400 font-bold text-sm">-</span>
+                            </div>
+                            
+                            <div class="hidden sm:block text-xs text-gray-500 px-3 py-2 bg-gray-800/50 rounded-lg">
+                                <span id="progress-percent">0%</span> completed
+                            </div>
+                        </div>
+                        
+                        <!-- Center Controls - Zoom -->
+                        <div class="flex items-center space-x-2">
+                            <button id="zoom-out" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm">
+                                −
+                            </button>
+                            
+                            <select id="zoom-select" class="px-3 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium cursor-pointer outline-none">
+                                <option value="0.5">50%</option>
+                                <option value="0.75">75%</option>
+                                <option value="1">100%</option>
+                                <option value="1.25">125%</option>
+                                <option value="1.5" selected>150%</option>
+                                <option value="2">200%</option>
+                                <option value="fit-width">Fit Width</option>
+                                <option value="fit-page">Fit Page</option>
+                            </select>
+                            
+                            <button id="zoom-in" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm">
+                                +
+                            </button>
+                        </div>
+                        
+                        <!-- Right Controls -->
+                        <div class="flex items-center space-x-2">
+                            <button id="search-btn" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm" title="Search (Ctrl+F)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                            
+                            <button id="thumbnails-btn" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm" title="Thumbnails">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                </svg>
+                            </button>
+                            
+                            <button id="fullscreen-btn" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm" title="Fullscreen (F)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Bar (Hidden by default) -->
+                    <div id="search-bar" class="hidden pb-2">
+                        <div class="flex items-center space-x-2">
+                            <input 
+                                type="text" 
+                                id="search-input" 
+                                placeholder="Search text in document..."
+                                class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg text-sm outline-none focus:ring-2 focus:ring-amber-500"
+                            />
+                            <span id="search-results" class="text-xs text-gray-500 px-3 py-2">0 results</span>
+                            <button id="search-prev" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm disabled:opacity-30">
+                                ↑
+                            </button>
+                            <button id="search-next" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm disabled:opacity-30">
+                                ↓
+                            </button>
+                            <button id="search-close" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="h-1 bg-gray-800 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-gradient-to-r from-amber-500 to-crimson-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="max-w-7xl mx-auto px-4 py-8 flex gap-4">
+            <!-- Thumbnails Sidebar (Hidden by default) -->
+            <div id="thumbnails-sidebar" class="hidden w-48 space-y-2 overflow-y-auto max-h-[calc(100vh-300px)] pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
+                <!-- Thumbnails will be dynamically inserted here -->
+            </div>
+            
+            <!-- Canvas Container -->
+            <div class="flex-1">
+                <div class="canvas-container bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-800 relative min-h-[800px] flex items-center justify-center">
+                    <canvas id="pdf-canvas" class="max-w-full h-auto transition-opacity duration-300"></canvas>
+                    <div class="watermark">VERIFIED ACCESS</div>
+                    <div id="watermark-dynamic" class="watermark-dynamic"></div>
+                    <div id="loading-message" class="text-amber-400 text-center">
+                        <svg class="animate-spin h-8 w-8 mx-auto mb-4" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p class="font-medium">Loading investigation dossier...</p>
+                        <div class="mt-4 w-64 h-2 bg-gray-800 rounded-full overflow-hidden mx-auto">
+                            <div id="page-load-progress" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dev Tools Warning Overlay -->
+    <div id="dev-tools-warning" class="dev-tools-warning">
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-crimson-400 mb-4">⚠️ Developer Tools Detected</h2>
+            <p class="text-xl text-gray-300 mb-6">This content is protected by copyright.</p>
+            <p class="text-gray-400">Unauthorized copying or distribution is prohibited.</p>
+        </div>
+    </div>
+
+    <script>
+        // PDF.js worker setup
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // ============================================
+        // DECLARE ALL ELEMENTS FIRST
+        // ============================================
+        const landingPage = document.getElementById('landing-page');
+        const readerPage = document.getElementById('reader-page');
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        let pdfDoc = null;
+        let currentPage = 1;
+        let currentScale = 1.5;
+        let devToolsOpen = false;
+        let countersAnimated = false;
+        let isRendering = false;
+        
+        // ============================================
+        // ENHANCED ANTI-PIRACY MEASURES
+        // ============================================
+        
+        // DevTools Detection
+        const devToolsWarning = document.getElementById('dev-tools-warning');
+        
+        const detectDevTools = () => {
+            const threshold = 160;
+            if (window.outerWidth - window.innerWidth > threshold || 
+                window.outerHeight - window.innerHeight > threshold) {
+                if (!devToolsOpen && readerPage.style.display === 'block') {
+                    devToolsOpen = true;
+                    devToolsWarning.style.display = 'flex';
+                    setTimeout(() => {
+                        devToolsWarning.style.display = 'none';
+                        devToolsOpen = false;
+                    }, 3000);
+                }
+            }
+        };
+        
+        setInterval(detectDevTools, 1000);
+        
+        // Screenshot Detection (visibility change)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && readerPage.style.display === 'block') {
+                console.log('⚠️ Screenshot attempt detected');
+            }
+        });
+        
+        // Dynamic Watermark with Session Info
+        function updateDynamicWatermark() {
+            const watermarkEl = document.getElementById('watermark-dynamic');
+            if (watermarkEl && readerPage.style.display === 'block') {
+                const sessionId = Date.now().toString(36).toUpperCase();
+                watermarkEl.textContent = `LICENSED COPY • ID: ${sessionId} • ${new Date().toLocaleDateString()}`;
+            }
+        }
+        
+        // Disable screenshot shortcuts
+        document.addEventListener('keyup', (e) => {
+            // Windows: PrtScn, Alt+PrtScn, Win+Shift+S
+            // Mac: Cmd+Shift+3, Cmd+Shift+4
+            if (e.key === 'PrintScreen' || 
+                (e.shiftKey && (e.metaKey || e.ctrlKey) && ['3', '4', 's'].includes(e.key.toLowerCase()))) {
+                if (readerPage.style.display === 'block') {
+                    alert('⚠️ Screenshot detected. This content is protected by copyright.');
+                }
+            }
+        });
+        
+        // Prevent dragging images from canvas
+        canvas.addEventListener('dragstart', (e) => e.preventDefault());
+        
+        // Security: Disable right-click and print
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                alert('Printing is disabled for this protected document.');
+                return false;
+            }
+            // TEMPORARILY ALLOW F12 FOR DEBUGGING
+            /* 
+            if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'J', 'C'].includes(e.key))) {
+                e.preventDefault();
+                return false;
+            }
+            */
+        });
+        
+        // Dossier toggle
+        function toggleDossier(id) {
+            const dossier = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            
+            if (!dossier || !icon) return; // Safety check
+            
+            if (dossier.classList.contains('hidden')) {
+                // Close all other dossiers
+                ['dossier1', 'dossier2', 'dossier3', 'dossier4'].forEach(dossierId => {
+                    if (dossierId !== id) {
+                        const d = document.getElementById(dossierId);
+                        const i = document.getElementById(dossierId + '-icon');
+                        if (d) d.classList.add('hidden');
+                        if (i) i.style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Open clicked dossier
+                dossier.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                // Close clicked dossier
+                dossier.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // ============================================
+        // UX FEATURES - SCROLL & ANIMATION
+        // ============================================
+        
+        // 1. Scroll Progress Indicator
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scroll-progress') || document.querySelector('.scroll-progress');
+            if (scrollProgress && landingPage.style.display !== 'none') {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                scrollProgress.style.width = scrolled + '%';
+            }
+        }
+        
+        window.addEventListener('scroll', updateScrollProgress);
+        
+        // 2. Animated Statistics Counter
+        
+        function animateCounters() {
+            if (countersAnimated) return;
+            
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                const duration = 2000; // 2 seconds
+                const steps = 60; // Animation steps
+                const stepDuration = duration / steps;
+                const increment = target / steps;
+                let current = 0;
+                let step = 0;
+                
+                const timer = setInterval(() => {
+                    step++;
+                    current += increment;
+                    
+                    if (step >= steps) {
+                        clearInterval(timer);
+                        // Set final value
+                        if (target % 1 === 0) {
+                            counter.textContent = Math.round(target);
+                        } else {
+                            counter.textContent = target.toFixed(2);
+                        }
+                    } else {
+                        // Update display
+                        if (target % 1 === 0) {
+                            counter.textContent = Math.round(current);
+                        } else {
+                            counter.textContent = current.toFixed(2);
+                        }
+                    }
+                }, stepDuration);
+            });
+            
+            countersAnimated = true;
+        }
+        
+        // 3. Scroll-triggered Reveal Animations
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                    
+                    // Trigger counter animation when stats section is visible
+                    if (reveal.querySelector('.counter') && !countersAnimated) {
+                        console.log('🎯 Triggering counter animation');
+                        animateCounters();
+                    }
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Check on page load
+        
+        // 4. 3D Tilt Effect on Stat Cards
+        document.querySelectorAll('.stat-badge').forEach(badge => {
+            badge.addEventListener('mousemove', (e) => {
+                const rect = badge.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                badge.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+            
+            badge.addEventListener('mouseleave', () => {
+                badge.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+        
+        // 5. Back to Top Button
+        
+        function toggleBackToTop() {
+            if (landingPage.style.display !== 'none') {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+        
+        window.addEventListener('scroll', toggleBackToTop);
+        
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Initialize on page load
+        toggleBackToTop();
+        
+        // ============================================
+        // PAYMENT & AUTHENTICATION
+        // ============================================
+        
+        // All CTA buttons
+        const ctaButtons = [
+            document.getElementById('nav-cta-btn'),
+            document.getElementById('main-cta-btn'),
+            document.getElementById('chapters-cta-btn'),
+            document.getElementById('footer-cta-btn')
+        ];
+        
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const pageInput = document.getElementById('page-input');
+        const zoomSelect = document.getElementById('zoom-select');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const loadingMessage = document.getElementById('loading-message');
+        const errorMessage = document.getElementById('error-message');
+        const progressBar = document.getElementById('progress-bar');
+        const pageLoadProgress = document.getElementById('page-load-progress');
+        const progressPercent = document.getElementById('progress-percent');
+        
+        // Search elements
+        const searchBtn = document.getElementById('search-btn');
+        const searchBar = document.getElementById('search-bar');
+        const searchInput = document.getElementById('search-input');
+        const searchClose = document.getElementById('search-close');
+        const searchPrevBtn = document.getElementById('search-prev');
+        const searchNextBtn = document.getElementById('search-next');
+        const searchResults = document.getElementById('search-results');
+        
+        // Other elements
+        const thumbnailsBtn = document.getElementById('thumbnails-btn');
+        const thumbnailsSidebar = document.getElementById('thumbnails-sidebar');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        
+        let searchMatches = [];
+        let currentSearchIndex = -1;
+        
+        // Check authentication on load
+        async function checkAuth() {
+            console.log('🔍 Checking authentication...');
+            try {
+                const response = await fetch('/api/check-auth');
+                console.log('📡 Auth response status:', response.status);
+                if (response.ok) {
+                    console.log('✅ Authentication successful - calling showReader()');
+                    showReader();
+                } else {
+                    console.log('❌ Not authenticated - showing landing page');
+                    updateCTAsForNonAuth();
+                }
+            } catch (error) {
+                console.error('❌ Auth check error:', error);
+                updateCTAsForNonAuth();
+            }
+        }
+        
+        // Update CTAs for non-authenticated users
+        function updateCTAsForNonAuth() {
+            ctaButtons.forEach(btn => {
+                if (btn) {
+                    btn.textContent = '🔓 Unlock Full Report (₹50)';
+                }
+            });
+        }
+        
+        // Check if user has existing access (show different CTA)
+        async function checkExistingAccess() {
+            try {
+                const response = await fetch('/api/check-auth');
+                if (response.ok) {
+                    console.log('✅ User has access - updating button text');
+                    
+                    // User has access - change CTAs to "Access Your Book"
+                    ctaButtons.forEach(btn => {
+                        if (btn) {
+                            btn.innerHTML = '📖 Access Your Book';
+                            btn.classList.remove('animate-pulse-glow');
+                            btn.classList.add('bg-green-500', 'hover:bg-green-600');
+                            btn.classList.remove('bg-amber-500', 'hover:bg-amber-600');
+                        }
+                    });
+                    
+                    // Show access status message
+                    const accessStatus = document.getElementById('access-status');
+                    if (accessStatus) {
+                        accessStatus.classList.remove('hidden');
+                    }
+                    
+                    // Change button action to open reader directly
+                    ctaButtons.forEach(btn => {
+                        if (btn) {
+                            btn.removeEventListener('click', initiatePayment);
+                            btn.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                console.log('📖 Opening reader - user has access');
+                                showReader();
+                            });
+                        }
+                    });
+                    
+                    return true;
+                } else {
+                    console.log('ℹ️ No existing access');
+                    return false;
+                }
+            } catch (error) {
+                console.log('ℹ️ No existing access');
+                return false;
+            }
+        }
+        
+        // Payment flow
+        async function initiatePayment() {
+            try {
+                ctaButtons.forEach(btn => {
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = 'Processing...';
+                    }
+                });
+                errorMessage.innerHTML = '';
+                
+                const response = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to create order');
+                }
+                
+                const options = {
+                    key: data.keyId,
+                    amount: data.amount,
+                    currency: data.currency,
+                    name: 'Moshi Tragedy Investigation',
+                    description: '45-chapter forensic dossier - Lifetime access',
+                    order_id: data.orderId,
+                    handler: async function(response) {
+                        await verifyPayment(response);
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            ctaButtons.forEach(btn => {
+                                if (btn) {
+                                    btn.disabled = false;
+                                    btn.textContent = '🔓 Unlock Full Report';
+                                }
+                            });
+                        }
+                    },
+                    theme: {
+                        color: '#F59E0B'
+                    }
+                };
+                
+                const rzp = new Razorpay(options);
+                rzp.open();
+                
+            } catch (error) {
+                showError(error.message);
+                ctaButtons.forEach(btn => {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = '🔓 Unlock Full Report';
+                    }
+                });
+            }
+        }
+        
+        async function verifyPayment(paymentData) {
+            try {
+                const response = await fetch('/api/verify-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paymentData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    showReader();
+                } else {
+                    throw new Error(data.error || 'Payment verification failed');
+                }
+            } catch (error) {
+                showError(error.message);
+                ctaButtons.forEach(btn => {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = '🔓 Unlock Full Report';
+                    }
+                });
+            }
+        }
+        
+        function showReader() {
+            console.log('📖 showReader() called');
+            landingPage.style.display = 'none';
+            readerPage.style.display = 'block';
+            window.scrollTo(0, 0);
+            updateDynamicWatermark();
+            console.log('✅ Loading PDF...');
+            loadPDF();
+        }
+        
+        async function loadPDF() {
+            try {
+                loadingMessage.style.display = 'block';
+                canvas.style.display = 'none';
+                
+                const loadingTask = pdfjsLib.getDocument('/api/ebook');
+                pdfDoc = await loadingTask.promise;
+                
+                document.getElementById('total-pages').textContent = pdfDoc.numPages;
+                pageInput.max = pdfDoc.numPages;
+                
+                // Load last read page from localStorage
+                const lastPage = localStorage.getItem('lastReadPage');
+                if (lastPage && parseInt(lastPage) <= pdfDoc.numPages) {
+                    currentPage = parseInt(lastPage);
+                    pageInput.value = currentPage;
+                }
+                
+                loadingMessage.style.display = 'none';
+                canvas.style.display = 'block';
+                
+                renderPage(currentPage);
+            } catch (error) {
+                loadingMessage.innerHTML = `<div class="text-crimson-400">Failed to load report: ${error.message}</div>`;
+            }
+        }
+        
+        async function renderPage(pageNum) {
+            if (isRendering || !pdfDoc) return;
+            
+            isRendering = true;
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            
+            // Show loading progress
+            pageLoadProgress.style.width = '0%';
+            canvas.style.opacity = '0.5';
+            
+            try {
+                const page = await pdfDoc.getPage(pageNum);
+                
+                pageLoadProgress.style.width = '30%';
+                
+                // Calculate scale
+                let scale = currentScale;
+                if (zoomSelect.value === 'fit-width') {
+                    const containerWidth = canvas.parentElement.clientWidth - 40;
+                    const viewport = page.getViewport({ scale: 1 });
+                    scale = containerWidth / viewport.width;
+                } else if (zoomSelect.value === 'fit-page') {
+                    const containerWidth = canvas.parentElement.clientWidth - 40;
+                    const containerHeight = canvas.parentElement.clientHeight - 40;
+                    const viewport = page.getViewport({ scale: 1 });
+                    const scaleWidth = containerWidth / viewport.width;
+                    const scaleHeight = containerHeight / viewport.height;
+                    scale = Math.min(scaleWidth, scaleHeight);
+                }
+                
+                const viewport = page.getViewport({ scale });
+                
+                pageLoadProgress.style.width = '50%';
+                
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                pageLoadProgress.style.width = '70%';
+                
+                await page.render({
+                    canvasContext: ctx,
+                    viewport: viewport
+                }).promise;
+                
+                pageLoadProgress.style.width = '100%';
+                
+                // Smooth fade in
+                canvas.style.opacity = '1';
+                
+                // Update UI
+                pageInput.value = pageNum;
+                currentPage = pageNum;
+                
+                // Save to localStorage
+                localStorage.setItem('lastReadPage', pageNum);
+                
+                // Update progress
+                const progress = (pageNum / pdfDoc.numPages) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressPercent.textContent = `${Math.round(progress)}%`;
+                
+                prevBtn.disabled = (currentPage === 1);
+                nextBtn.disabled = (currentPage === pdfDoc.numPages);
+                
+            } catch (error) {
+                console.error('Error rendering page:', error);
+            } finally {
+                isRendering = false;
+                setTimeout(() => {
+                    pageLoadProgress.style.width = '0%';
+                }, 300);
+            }
+        }
+        
+        // Zoom Controls
+        function updateZoom(newScale) {
+            if (typeof newScale === 'number') {
+                currentScale = newScale;
+                zoomSelect.value = newScale.toString();
+            } else {
+                zoomSelect.value = newScale;
+            }
+            renderPage(currentPage);
+        }
+        
+        zoomSelect.addEventListener('change', (e) => {
+            const value = e.target.value;
+            if (value === 'fit-width' || value === 'fit-page') {
+                renderPage(currentPage);
+            } else {
+                currentScale = parseFloat(value);
+                renderPage(currentPage);
+            }
+        });
+        
+        zoomInBtn.addEventListener('click', () => {
+            if (currentScale < 2) {
+                currentScale += 0.25;
+                updateZoom(currentScale);
+            }
+        });
+        
+        zoomOutBtn.addEventListener('click', () => {
+            if (currentScale > 0.5) {
+                currentScale -= 0.25;
+                updateZoom(currentScale);
+            }
+        });
+        
+        // Page Jump
+        pageInput.addEventListener('change', (e) => {
+            let pageNum = parseInt(e.target.value);
+            if (pageNum && pageNum >= 1 && pageNum <= pdfDoc.numPages) {
+                renderPage(pageNum);
+            } else {
+                e.target.value = currentPage;
+            }
+        });
+        
+        pageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.target.blur();
+            }
+        });
+        
+        // Search Functionality
+        searchBtn.addEventListener('click', () => {
+            searchBar.classList.toggle('hidden');
+            if (!searchBar.classList.contains('hidden')) {
+                searchInput.focus();
+            }
+        });
+        
+        searchClose.addEventListener('click', () => {
+            searchBar.classList.add('hidden');
+            searchInput.value = '';
+            searchMatches = [];
+            currentSearchIndex = -1;
+            searchResults.textContent = '0 results';
+        });
+        
+        searchInput.addEventListener('input', async (e) => {
+            const query = e.target.value.trim();
+            if (query.length < 2) {
+                searchMatches = [];
+                searchResults.textContent = '0 results';
+                return;
+            }
+            
+            searchMatches = [];
+            searchResults.textContent = 'Searching...';
+            
+            try {
+                for (let i = 1; i <= pdfDoc.numPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const text = textContent.items.map(item => item.str).join(' ');
+                    
+                    if (text.toLowerCase().includes(query.toLowerCase())) {
+                        searchMatches.push(i);
+                    }
+                }
+                
+                searchResults.textContent = `${searchMatches.length} results`;
+                currentSearchIndex = searchMatches.length > 0 ? 0 : -1;
+                
+                if (searchMatches.length > 0) {
+                    renderPage(searchMatches[0]);
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                searchResults.textContent = 'Search failed';
+            }
+        });
+        
+        searchNextBtn.addEventListener('click', () => {
+            if (searchMatches.length > 0) {
+                currentSearchIndex = (currentSearchIndex + 1) % searchMatches.length;
+                renderPage(searchMatches[currentSearchIndex]);
+            }
+        });
+        
+        searchPrevBtn.addEventListener('click', () => {
+            if (searchMatches.length > 0) {
+                currentSearchIndex = (currentSearchIndex - 1 + searchMatches.length) % searchMatches.length;
+                renderPage(searchMatches[currentSearchIndex]);
+            }
+        });
+        
+        // Thumbnails
+        let thumbnailsGenerated = false;
+        
+        thumbnailsBtn.addEventListener('click', async () => {
+            thumbnailsSidebar.classList.toggle('hidden');
+            
+            if (!thumbnailsGenerated && !thumbnailsSidebar.classList.contains('hidden')) {
+                await generateThumbnails();
+            }
+        });
+        
+        async function generateThumbnails() {
+            if (!pdfDoc || thumbnailsGenerated) return;
+            
+            thumbnailsSidebar.innerHTML = '<div class="text-xs text-gray-400 p-2">Loading thumbnails...</div>';
+            
+            try {
+                const maxThumbnails = Math.min(50, pdfDoc.numPages); // Limit to 50 thumbnails
+                
+                for (let i = 1; i <= maxThumbnails; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 0.3 });
+                    
+                    const thumbCanvas = document.createElement('canvas');
+                    const thumbCtx = thumbCanvas.getContext('2d');
+                    thumbCanvas.width = viewport.width;
+                    thumbCanvas.height = viewport.height;
+                    
+                    await page.render({
+                        canvasContext: thumbCtx,
+                        viewport: viewport
+                    }).promise;
+                    
+                    const thumbContainer = document.createElement('div');
+                    thumbContainer.className = 'cursor-pointer border-2 border-transparent hover:border-amber-500 rounded transition-all p-1 bg-gray-800';
+                    thumbContainer.innerHTML = `
+                        <img src="${thumbCanvas.toDataURL()}" class="w-full rounded" />
+                        <div class="text-xs text-center text-gray-400 mt-1">Page ${i}</div>
+                    `;
+                    
+                    thumbContainer.addEventListener('click', () => {
+                        renderPage(i);
+                        // Highlight selected thumbnail
+                        document.querySelectorAll('#thumbnails-sidebar > div').forEach(t => {
+                            t.classList.remove('border-amber-500');
+                            t.classList.add('border-transparent');
+                        });
+                        thumbContainer.classList.remove('border-transparent');
+                        thumbContainer.classList.add('border-amber-500');
+                    });
+                    
+                    if (thumbnailsSidebar.children[0]?.textContent === 'Loading thumbnails...') {
+                        thumbnailsSidebar.innerHTML = '';
+                    }
+                    
+                    thumbnailsSidebar.appendChild(thumbContainer);
+                }
+                
+                thumbnailsGenerated = true;
+            } catch (error) {
+                console.error('Thumbnail generation error:', error);
+                thumbnailsSidebar.innerHTML = '<div class="text-xs text-crimson-400 p-2">Failed to load thumbnails</div>';
+            }
+        }
+        
+        async function generateThumbnails() {
+            if (!pdfDoc) return;
+            
+            thumbnailsSidebar.innerHTML = '<div class="text-xs text-gray-500 p-2">Generating...</div>';
+            
+            for (let i = 1; i <= Math.min(pdfDoc.numPages, 50); i++) {
+                try {
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 0.2 });
+                    
+                    const thumbCanvas = document.createElement('canvas');
+                    thumbCanvas.width = viewport.width;
+                    thumbCanvas.height = viewport.height;
+                    const thumbCtx = thumbCanvas.getContext('2d');
+                    
+                    await page.render({
+                        canvasContext: thumbCtx,
+                        viewport: viewport
+                    }).promise;
+                    
+                    const thumbDiv = document.createElement('div');
+                    thumbDiv.className = 'cursor-pointer border-2 border-transparent hover:border-amber-500 rounded-lg overflow-hidden transition-all';
+                    thumbDiv.innerHTML = `
+                        <img src="${thumbCanvas.toDataURL()}" class="w-full h-auto" />
+                        <div class="text-xs text-center text-gray-400 py-1 bg-gray-900">Page ${i}</div>
+                    `;
+                    thumbDiv.onclick = () => renderPage(i);
+                    
+                    thumbnailsSidebar.appendChild(thumbDiv);
+                } catch (error) {
+                    console.error(`Thumbnail generation error for page ${i}:`, error);
+                }
+            }
+            
+            thumbnailsGenerated = true;
+        }
+        
+        // Fullscreen
+        // Fullscreen
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                readerPage.requestFullscreen().catch(err => {
+                    console.error('Fullscreen error:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+        
+        // Navigation
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) renderPage(currentPage - 1);
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) renderPage(currentPage + 1);
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (readerPage.style.display === 'block') {
+                // Arrow keys for navigation
+                if (e.key === 'ArrowLeft' && currentPage > 1 && !pageInput.matches(':focus')) {
+                    renderPage(currentPage - 1);
+                } else if (e.key === 'ArrowRight' && currentPage < pdfDoc.numPages && !pageInput.matches(':focus')) {
+                    renderPage(currentPage + 1);
+                }
+                
+                // F for fullscreen
+                if (e.key === 'f' || e.key === 'F') {
+                    if (!searchInput.matches(':focus') && !pageInput.matches(':focus')) {
+                        e.preventDefault();
+                        fullscreenBtn.click();
+                    }
+                }
+                
+                // Ctrl+F for search
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    searchBtn.click();
+                }
+                
+                // + / - for zoom
+                if ((e.key === '+' || e.key === '=') && !searchInput.matches(':focus') && !pageInput.matches(':focus')) {
+                    e.preventDefault();
+                    zoomInBtn.click();
+                } else if (e.key === '-' && !searchInput.matches(':focus') && !pageInput.matches(':focus')) {
+                    e.preventDefault();
+                    zoomOutBtn.click();
+                }
+            }
+        });
+        
+        // Touch gestures for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        canvas.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        canvas.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0 && currentPage < pdfDoc.numPages) {
+                    // Swipe left - next page
+                    renderPage(currentPage + 1);
+                } else if (diff < 0 && currentPage > 1) {
+                    // Swipe right - previous page
+                    renderPage(currentPage - 1);
+                }
+            }
+        }
+        
+        // Logout
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.reload();
+            } catch (error) {
+                console.error('Logout error:', error);
+                window.location.reload();
+            }
+        });
+        
+        // ============================================
+        // INITIALIZE - BIND EVENT HANDLERS
+        // ============================================
+        
+        // Bind all CTA buttons to payment handler
+        ctaButtons.forEach(btn => {
+            if (btn) {
+                console.log('✅ Binding CTA button:', btn.id);
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log('🔘 CTA button clicked:', btn.id);
+                    initiatePayment();
+                });
+            } else {
+                console.warn('⚠️ CTA button not found');
+            }
+        });
+        
+        console.log('✅ All CTA buttons initialized:', ctaButtons.length);
+        
+        function showError(message) {
+            errorMessage.innerHTML = `<div class="mt-4 bg-crimson-500/10 border border-crimson-500/30 rounded-lg p-4 text-crimson-400 text-sm">${message}</div>`;
+        }
+        
+        // Initialize - Check for existing access first
+        checkExistingAccess().then((hasAccess) => {
+            // Only check auth if no existing access
+            if (!hasAccess) {
+                checkAuth();
+            }
+        });
+        
+        // ============================================
+        // LANDING PAGE UX ENHANCEMENTS
+        // ============================================
+        
+        // Scroll Progress Indicator
+        const scrollProgress = document.getElementById('scroll-progress');
+        window.addEventListener('scroll', () => {
+            if (landingPage.style.display !== 'none') {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height);
+                scrollProgress.style.transform = `scaleX(${scrolled})`;
+            }
+        });
+        
+        // Intersection Observer for Reveal Animations
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+        
+        // Counter Animation for Stats
+        function animateCounter(element) {
+            const target = parseFloat(element.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const isDecimal = target % 1 !== 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = isDecimal ? target.toFixed(2) : Math.round(target);
+                    clearInterval(timer);
+                } else {
+                    element.textContent = isDecimal ? current.toFixed(2) : Math.round(current);
+                }
+            }, 16);
+        }
+        
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        if (!counter.classList.contains('counted')) {
+                            counter.classList.add('counted');
+                            animateCounter(counter);
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.stat-badge').forEach(badge => {
+            counterObserver.observe(badge);
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Add hover tilt effect to stat cards
+        document.querySelectorAll('.stat-badge').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+        
+        // Parallax effect on hero section
+        window.addEventListener('scroll', () => {
+            if (landingPage.style.display !== 'none') {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.parallax');
+                
+                parallaxElements.forEach(el => {
+                    const speed = el.dataset.speed || 0.5;
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
